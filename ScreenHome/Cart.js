@@ -1,28 +1,60 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Alert } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { v4 as uuidv4 } from 'uuid';
+import { useMyContextProvider } from "../src/index";
 
 const Cart = ({ route, navigation }) => {
     const { service } = route.params;
     const [quantity, setQuantity] = useState(1);
     const [notes, setNotes] = useState('');
+    const [userId, setUserId] = useState('');
+    const [controller, dispatch] = useMyContextProvider();
+    const { userLogin } = controller;
+
+    useEffect(() => {
+        const getUserId = async () => {
+            if (userLogin) {
+                setUserId(userLogin.email);
+            } else {
+                let guestId = await AsyncStorage.getItem('guestId');
+                if (!guestId) {
+                    guestId = uuidv4();
+                    await AsyncStorage.setItem('guestId', guestId);
+                }
+                setUserId(guestId);
+            }
+        };
+
+        getUserId();
+    }, [userLogin]);
 
     const handlePlaceOrder = async () => {
+        if (!userId) {
+            Alert.alert("Error", "User ID is not set.");
+            return;
+        }
+
         try {
-            await firestore().collection('Cart').add({
-                serviceId: service.id,
-                title: service.title,
-                price: service.price,
-                quantity: quantity,
-                notes: notes,
-                createdAt: firestore.FieldValue.serverTimestamp(),
-            });
-            alert('Order placed successfully!');
+            await firestore()
+                .collection('USERS')
+                .doc(userId)
+                .collection('Cart')
+                .add({
+                    serviceId: service.id,
+                    title: service.title,
+                    price: service.price,
+                    quantity: quantity,
+                    notes: notes,
+                    createdAt: firestore.FieldValue.serverTimestamp(),
+                });
+            Alert.alert('Order placed successfully!');
             navigation.goBack();
         } catch (error) {
             console.error(error);
-            alert('Failed to place order. Please try again.');
+            Alert.alert('Failed to place order. Please try again.');
         }
     };
 
@@ -58,14 +90,14 @@ const Cart = ({ route, navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                     <TextInput
+                    <TextInput
                         mode='outlined'
                         cursorColor='pink'
                         theme={{
-                        colors: {
-                            primary: '#4858AD', // Màu viền khi được chọn
-                            underlineColor: 'transparent', // Màu gạch chân khi không được chọn
-                        },
+                            colors: {
+                                primary: '#4858AD', // Màu viền khi được chọn
+                                underlineColor: 'transparent', // Màu gạch chân khi không được chọn
+                            },
                         }}
                         label={"Note"}
                         value={notes}
@@ -74,7 +106,7 @@ const Cart = ({ route, navigation }) => {
                         onChangeText={text => setNotes(text)}
                         style={styles.input}
                     />
-                    <Button 
+                    <Button
                         mode='elevated'
                         labelStyle={styles.label}
                         onPress={handlePlaceOrder}
@@ -132,27 +164,27 @@ const styles = StyleSheet.create({
     },
     input: {
         marginVertical: 10,
-        marginHorizontal:10,
+        marginHorizontal: 10,
         backgroundColor: 'white',
-        height:70
+        height: 70,
     },
     orderButton: {
         marginTop: 20,
-        marginHorizontal:10,
+        marginHorizontal: 10,
         backgroundColor: 'blue',
     },
-    label:{
-        fontSize:20,
-        color:'blue'
+    label: {
+        fontSize: 20,
+        color: 'blue',
     },
-    button:{
-        borderRadius:10,
-        padding:5,
-        margin:5,
+    button: {
+        borderRadius: 10,
+        padding: 5,
+        margin: 5,
         borderWidth: 0.5,
-        borderColor: 'blue', 
-        marginTop:20,
-        backgroundColor:'#84BFF3'
+        borderColor: 'blue',
+        marginTop: 20,
+        backgroundColor: '#84BFF3',
     },
 });
 

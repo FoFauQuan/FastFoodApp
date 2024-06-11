@@ -75,19 +75,12 @@ const Category = () => {
         )
     }
     const renderItem =({item,index})=>(
-        <View style={{ margin: 5,
-                padding:15, 
-                borderRadius: 5, 
-                marginVertical: 5, 
-                backgroundColor: '#84BFF3',
-                flexDirection:'row',
-                justifyContent:'space-between',
-                alignContent:'center' }}>
+        <View style={styles.card}>
             <Text style={{ fontSize: 20, fontWeight: "bold",alignSelf:'center' }}>{index+1}. {item.title}</Text>
             <TouchableOpacity 
                     style={{borderWidth:1,
                     borderRadius:10,
-                    backgroundColor: 'pink'}} 
+                    backgroundColor: '#F54637'}} 
                     onPress={() => handleDelete(item)}>
                 <Text style={{alignSelf:'center',fontSize: 18,padding:5}}>
                     Delete
@@ -105,8 +98,8 @@ const Category = () => {
         .catch(e => console.log(e.message));
     }
     return (
-        <View style={{ flex: 1,backgroundColor:'white' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold',margin:10 }}>Service name *</Text>
+        <View style={{ flex: 1,backgroundColor:'white',padding:10 }}>
+            <Text style={styles.header}>Service name *</Text>
             {imagePath !== "" && (
                 <Image source={{ uri: imagePath }} style={{ height: 200 }} />
             )}
@@ -156,6 +149,12 @@ const styles = StyleSheet.create({
         paddingHorizontal:5,
         paddingTop:50,
     },
+    header: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        margin: 10,
+        color: '#000000',
+    },
     textheader:{
         alignSelf: 'center',
         fontSize: 30,
@@ -165,9 +164,20 @@ const styles = StyleSheet.create({
         fontSize:20,
         color:'blue'
     },
+    card:{
+        margin: 5,
+        padding:15, 
+        borderRadius: 5, 
+        marginVertical: 5, 
+        backgroundColor: '#ffffff',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignContent:'center',
+        borderWidth:0.5 
+    },
     button:{
         borderRadius:10,
-        padding:5,
+
         margin:5,
         borderWidth: 0.5,
         borderColor: 'blue', 
@@ -176,7 +186,7 @@ const styles = StyleSheet.create({
     },
     buttonpic:{
         borderRadius:10,
-        padding:5,
+
         marginHorizontal:100,
         borderWidth: 0.5,
         borderColor: 'blue', 

@@ -8,7 +8,7 @@ const GuestCartOrders = ({ navigation }) => {
             <TouchableOpacity  
             style={styles.box1}>
                 <Text style={styles.textbox1}>
-                    Please log in to view orderhistory in {'\n'} The Setting
+                    Please log in to view order history in {'\n'} The Setting
                 </Text>
             </TouchableOpacity>
         </View>

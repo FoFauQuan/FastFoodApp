@@ -1,61 +1,80 @@
-import React from "react"
-import { View, Image,StyleSheet } from "react-native"
-import { Text } from "react-native-paper"
+import React from "react";
+import { View, Image, StyleSheet, ScrollView } from "react-native";
+import { Text } from "react-native-paper";
 
 const ServiceDetail = ({ route }) => {
-    const { service } = route.params
+    const { service } = route.params;
     return (
-        <View style={{flex:1,padding:20,backgroundColor:'white'}}>
-        <View style={{flex:1,backgroundColor:'white',padding:10}}>
+        <ScrollView contentContainerStyle={styles.container}>
             {service.image !== "" && (
-                <View style={{ flexDirection: 'row',borderWidth:0.5 }}>
+                <View style={styles.imageContainer}>
                     <Image
                         source={{ uri: service.image }}
-                        style={{ height: 300, width: '100%' }}
-                        resizeMode="contain"
+                        style={styles.image}
+                        resizeMode="cover"
                     />
                 </View>
             )}
-            <View style={styles.row}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Service name: </Text>
-                <Text style={{ fontSize: 20}}>{service.title}</Text>
+            <View style={styles.content}>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Service Name</Text>
+                    <Text style={styles.value}>{service.title}</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Description</Text>
+                    <Text style={styles.value}>{service.describe}</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Price</Text>
+                    <Text style={styles.value}>{service.price} ₫</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Created By</Text>
+                    <Text style={styles.value}>{service.create}</Text>
+                </View>
             </View>
-            <View style={styles.row}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Price: </Text>
-                <Text style={{ fontSize: 20}}>{service.describe} </Text>
-            </View>
-            <View style={styles.row}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Price: </Text>
-                <Text style={{ fontSize: 20}}>{service.price} ₫</Text>
-            </View>
-            <View style={styles.row}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>CreateBy: </Text>
-                <Text style={{ fontSize: 20}}>{service.create}</Text>
-            </View>
-        </View>
-        </View>
-    )
-}
+        </ScrollView>
+    );
+};
 
 export default ServiceDetail;
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: 'white',
-        padding: 10,
-        alignContent:'center',
-        justifyContent:'center'
+        flexGrow: 1,
+        backgroundColor: '#f0f0f0',
+        padding: 20,
     },
-    headerText: {
-        padding: 15,
-        fontSize: 35,
-        fontWeight: 'bold',
+    imageContainer: {
+        marginBottom: 20,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+    image: {
+        height: 300,
+        width: '100%',
+    },
+    content: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
     },
     row: {
-        flexDirection: 'row',
-        padding: 10,
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        borderWidth:0.5
+        marginBottom: 15,
     },
-})
+    label: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 5,
+    },
+    value: {
+        fontSize: 16,
+        color: '#555',
+    },
+});

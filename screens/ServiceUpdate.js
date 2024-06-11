@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Image,StyleSheet, ScrollView } from 'react-native'
-import {Text, TextInput, Button } from "react-native-paper";
+import { View, Image, StyleSheet, ScrollView } from 'react-native';
+import { Text, TextInput, Button } from "react-native-paper";
 import firestore from '@react-native-firebase/firestore';
 import storage from "@react-native-firebase/storage";
 import ImagePicker from "react-native-image-crop-picker";
@@ -36,11 +36,11 @@ const ServiceUpdate = ({ route, navigation }) => {
 
             navigation.goBack();
         } catch (error) {
-            console.error("Lỗi khi cập nhật dịch vụ:", error);
+            console.error("Error updating service:", error);
         }
-    }
+    };
 
-    const handleUploadImage = () =>{
+    const handleUploadImage = () => {
         ImagePicker.openPicker({
             mediaType: "photo",
             width: 400,
@@ -49,85 +49,100 @@ const ServiceUpdate = ({ route, navigation }) => {
         .then(image =>
             setImagePath(image.path)
         )
-        .catch(e=> console.log(e.message))
-    }
+        .catch(e => console.log(e.message));
+    };
 
     return (
-        <View style={{ padding: 10 }}>
-            <ScrollView>
-            {((imagePath !== "") &&
-            <Image source={{uri: imagePath}}
-                style={{height: 250, width:250, alignSelf:'center'}}
-            />
+        <ScrollView contentContainerStyle={styles.container}>
+            {imagePath !== "" && (
+                <View style={styles.imageContainer}>
+                    <Image source={{ uri: imagePath }} style={styles.image} />
+                </View>
             )}
             <Button 
-            mode='elevated'
-            labelStyle={styles.label}
-            style={styles.buttonpic}
-             onPress={handleUploadImage}>
+                mode='contained' 
+                onPress={handleUploadImage} 
+                style={styles.buttonPic}
+                labelStyle={styles.buttonLabel}
+            >
                 Upload Image
             </Button>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Service name *</Text>
+            <Text style={styles.label}>Service Name *</Text>
             <TextInput
-                style={styles.text}
+                style={styles.input}
                 value={title}
                 onChangeText={setTitle}
                 placeholder="Input a service name"
             />
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Describe *</Text>
+            <Text style={styles.label}>Description *</Text>
             <TextInput
+                style={styles.input}
                 value={describe}
                 onChangeText={setDescribe}
                 multiline
                 numberOfLines={3}
-                style={styles.text}
             />
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Price *</Text>
+            <Text style={styles.label}>Price *</Text>
             <TextInput
-                style={styles.text}
+                style={styles.input}
                 value={price}
                 onChangeText={setPrice}
                 placeholder="0"
                 keyboardType="numeric"
             />
             <Button 
-                mode='elevated'
-                labelStyle={styles.label}
-                onPress={handleUpdateService}
-                style={styles.button}>
-                    Update
+                mode='contained' 
+                onPress={handleUpdateService} 
+                style={styles.button}
+                labelStyle={styles.buttonLabel}
+            >
+                Update
             </Button>
-            </ScrollView>
-        </View>
+        </ScrollView>
     );
-}
+};
+
 const styles = StyleSheet.create({
-    text:{
-        marginBottom: 10, 
-        borderWidth: 1, 
-        borderColor: 'white'
+    container: {
+        flexGrow: 1,
+        backgroundColor: '#f0f0f0',
+        padding: 20,
     },
-    button:{
-        borderRadius:10,
-        padding:5,
-        borderWidth: 0.5,
-        borderColor: 'blue', 
-        marginTop:20,
-        marginBottom:5,
-        backgroundColor:'#84BFF3'
+    imageContainer: {
+        marginBottom: 20,
+        alignItems: 'center',
     },
-    buttonpic:{
-        borderRadius:10,
-        padding:5,
-        marginHorizontal:100,
-        borderWidth: 0.5,
-        borderColor: 'blue', 
-        marginTop:20,
-        marginBottom:5,
-        backgroundColor:'#84BFF3'
+    image: {
+        height: 250,
+        width: 400,
+        borderRadius: 10,
     },
-    label:{
-        fontSize:20
+    label: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 5,
+    },
+    input: {
+        marginBottom: 15,
+        backgroundColor: 'white',
+    },
+    button: {
+        borderRadius: 10,
+        padding: 10,
+        marginTop: 20,
+        backgroundColor: '#84BFF3',
+    },
+    buttonPic: {
+        borderRadius: 10,
+        padding: 10,
+        marginVertical: 20,
+        backgroundColor: '#84BFF3',
+    },
+    buttonLabel: {
+        fontSize: 18,
+        color: 'white',
     },
 });
+
 export default ServiceUpdate;

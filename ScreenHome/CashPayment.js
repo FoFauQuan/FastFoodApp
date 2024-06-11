@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList,Button } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { useMyContextProvider } from "../src/index";
 
-const CashPayment = ({ route }) => {
+const CashPayment = ({ route,navigation }) => {
     const { cartOrderId } = route.params;
     const [orderDetails, setOrderDetails] = useState(null);
     const [controller, dispatch] = useMyContextProvider();
@@ -35,11 +35,12 @@ const CashPayment = ({ route }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Order Details</Text>
-            <View>
-                <Text style={styles.label}>Full Name: {userLogin.fullName} </Text>
-                <Text style={styles.label}>Address: {userLogin.address} </Text>
-                <Text style={styles.label}>Phone: {userLogin.phone}</Text>
-            </View>
+            {userLogin !== null && (
+            <Text style={styles.label}>Full Name: {userLogin.fullName} </Text>
+            )}
+            <Text style={styles.label}>Phone: {orderDetails.phone}</Text>
+            <Text style={styles.label}>Address: {orderDetails.address} </Text>
+            <Text style={styles.label}>Time Order: {orderDetails.timestamp && orderDetails.timestamp.toDate().toLocaleString()} </Text>
             <Text style={styles.subtitle}>Payment methods: {orderDetails.paymentMethod}</Text>
             <FlatList
                 data={orderDetails.carts}
@@ -62,6 +63,7 @@ const CashPayment = ({ route }) => {
                 keyExtractor={(item) => item.id}
             />
             <Text style={styles.totalAmount}>Total Amount: {parseInt(orderDetails.totalAmount).toLocaleString('vi-VN')} ₫</Text>
+            <Button title="Back to Menu" onPress={() => navigation.navigate("ServicesCustomer")} />
         </View>
     );
 };

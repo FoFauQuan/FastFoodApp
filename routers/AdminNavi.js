@@ -61,7 +61,7 @@ const AdminNavi = () => {
           tabBarLabel:'Category',
           tabBarIcon: ({ color }) => (
             <Image
-              source={require("../assets/account.png")}
+              source={require("../assets/folder-management.png")}
               style={{ width: 24, height: 24, tintColor: color }}
             />
           ),

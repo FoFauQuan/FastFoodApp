@@ -41,31 +41,27 @@ const Router = ({ navigation }) => {
             }}
         >
             <Stack.Screen
-                name="MainScreens"
-                component={MainScreens}
+                name="MainScreens" component={MainScreens}
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name="Login"
-                component={Login}
+                name="Login" component={Login}
                 options={{
                     headerShown: true,
                     headerTitleAlign: 'center',
                 }}
             />
             <Stack.Screen
-                name="Admin"
-                component={AdminNavi}
+                name="Admin" component={AdminNavi}
                 options={{
                     headerLeft: null,
                     headerTitleAlign: 'center',
                 }}
             />
             <Stack.Screen
-                name="Customer"
-                component={CustomerNavigation}
+                name="Customer" component={CustomerNavigation}
                 options={{
                     // title: userLogin != null && userLogin.fullName,
                     headerLeft: null,
@@ -73,34 +69,29 @@ const Router = ({ navigation }) => {
                 }}
             />
             <Stack.Screen
-                name="Register"
-                component={Register}
+                name="Register" component={Register}
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name="ForgotPassword"
-                component={ForgotPassword}
+                name="ForgotPassword" component={ForgotPassword}
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name="ChangePass"
-                component={ChangePass}
+                name="ChangePass" component={ChangePass}
                 options={{
                 }}
             />
             <Stack.Screen
-                name="ProfileCustomer"
-                component={ProfileCustomer}
+                name="ProfileCustomer" component={ProfileCustomer}
                 options={{
                 }}
             />
             <Stack.Screen
-                name="GuestNavi"
-                component={GuestNavi}
+                name="GuestNavi" component={GuestNavi}
                 options={{
                     headerLeft: null,
                 }}

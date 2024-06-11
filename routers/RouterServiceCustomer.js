@@ -6,6 +6,7 @@ import { Image } from "react-native";
 import Cart from "../ScreenHome/Cart";
 import Checkout from "../ScreenHome/Checkout";
 import CashPayment from "../ScreenHome/CashPayment";
+import CartOrdersPage from "../ScreenHome/CartOrdersPage";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ const RouterServiceCustomer = ({ navigation }) => {
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="Checkout" component={Checkout} />
             <Stack.Screen name="CashPayment" component={CashPayment} />
+            <Stack.Screen name="CartOrdersPage" component={CartOrdersPage} />
         </Stack.Navigator>
     )
 }
